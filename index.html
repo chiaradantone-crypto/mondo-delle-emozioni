@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psicoeducazione sulle Emozioni - CBT</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            min-height: 90vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: none;
+        }
+        
+        .back-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 50px;
+        }
+        
+        .emotion-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .emotion-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .emotion-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+        
+        .emotion-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .emotion-card p {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        /* Colori specifici per ogni emozione */
+        .card-generale { border-color: #667eea; }
+        .card-generale:hover { border-color: #667eea; background: #f8f9ff; }
+        
+        .card-paura { border-color: #f093fb; }
+        .card-paura:hover { border-color: #f093fb; background: #fef5ff; }
+        
+        .card-tristezza { border-color: #4facfe; }
+        .card-tristezza:hover { border-color: #4facfe; background: #f0f9ff; }
+        
+        .card-rabbia { border-color: #fa709a; }
+        .card-rabbia:hover { border-color: #fa709a; background: #fff5f7; }
+        
+        .card-gioia { border-color: #feca57; }
+        .card-gioia:hover { border-color: #feca57; background: #fffef0; }
+        
+        .card-disgusto { border-color: #48c6ef; }
+        .card-disgusto:hover { border-color: #48c6ef; background: #f0fcff; }
+        
+        .card-sorpresa { border-color: #a8edea; }
+        .card-sorpresa:hover { border-color: #a8edea; background: #f5ffff; }
+        
+        .content-page {
+            display: none;
+            padding: 50px;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-page h2 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .content-page h3 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-page p {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+        
+        .content-page ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .content-page li {
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        
+        .signal-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .signal-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .example-box {
+            background: #fff9e6;
+            border-left: 4px solid #feca57;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tip-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .exercise-section {
+            background: #f0f0f0;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+        }
+        
+        .key-messages {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .key-messages li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        @media (max-width: 768px) {
+            .home-grid {
+                grid-template-columns: 1fr;
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content-page {
+                padding: 30px 20px;
+            }
+            
+            .back-btn {
+                top: 20px;
+                left: 20px;
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn" onclick="goHome()">← Torna alla Home</button>
+            <h1>🧠 Psicoeducazione sulle Emozioni</h1>
+            <p>Comprendere le emozioni attraverso la Terapia Cognitivo-Comportamentale</p>
+        </div>
+        
+        <!-- HOME PAGE -->
+        <div id="home" class="home-grid">
+            <div class="emotion-card card-generale" onclick="showPage('generale')">
+                <div class="emotion-icon">🧩</div>
+                <h3>Emozioni in Generale</h3>
+                <p>Introduzione alle emozioni e al modello ABC della CBT</p>
+            </div>
+            
+            <div class="emotion-card card-paura" onclick="showPage('paura')">
+                <div class="emotion-icon">😰</div>
+                <h3>Paura/Ansia</h3>
+                <p>Comprendere e gestire paura e ansia</p>
+            </div>
+            
+            <div class="emotion-card card-tristezza" onclick="showPage('tristezza')">
+                <div class="emotion-icon">😢</div>
+                <h3>Tristezza</h3>
+                <p>Elaborare la tristezza in modo sano</p>
+            </div>
+            
+            <div class="emotion-card card-rabbia" onclick="showPage('rabbia')">
+                <div class="emotion-icon">😠</div>
+                <h3>Rabbia</h3>
+                <p>Trasformare la rabbia in assertività</p>
+            </div>
+            
+            <div class="emotion-card card-gioia" onclick="showPage('gioia')">
+                <div class="emotion-icon">😊</div>
+                <h3>Gioia</h3>
+                <p>Coltivare e amplificare la gioia</p>
+            </div>
+            
+            <div class="emotion-card card-disgusto" onclick="showPage('disgusto')">
+                <div class="emotion-icon">🤢</div>
+                <h3>Disgusto</h3>
+                <p>Funzione e gestione del disgusto</p>
+            </div>
+            
+            <div class="emotion-card card-sorpresa" onclick="showPage('sorpresa')">
+                <div class="emotion-icon">😲</div>
+                <h3>Sorpresa</h3>
+                <p>L'emozione dell'inaspettato</p>
+            </div>
+        </div>
+        
+        <!-- PAGINA GENERALE -->
+        <div id="page-generale" class="content-page">
+            <h2>🧩 Introduzione alle Emozioni</h2>
+            
+            <h3>Cosa sono le emozioni?</h3>
+            <p>Le emozioni sono risposte naturali e universali che tutti gli esseri umani sperimentano. Sono reazioni complesse che coinvolgono tre componenti fondamentali:</p>
+            
+            <div class="signal-box">
+                <strong>Le tre componenti delle emozioni:</strong>
+                <ul>
+                    <li><strong>Componente fisiologica:</strong> cambiamenti nel corpo (battito cardiaco, respirazione, tensione muscolare)</li>
+                    <li><strong>Componente cognitiva:</strong> pensieri e interpretazioni della situazione</li>
+                    <li><strong>Componente comportamentale:</strong> azioni e impulsi a fare qualcosa</li>
+                </ul>
+            </div>
+            
+            <h3>Le emozioni non sono né buone né cattive</h3>
+            <p>Tutte le emozioni hanno una funzione importante e ci forniscono informazioni preziose su noi stessi e sul mondo che ci circonda. Non esistono emozioni "sbagliate" o "giuste", ma solo modi più o meno funzionali di gestirle.</p>
+            
+            <h3>Il modello ABC della Terapia Cognitivo-Comportamentale</h3>
+            <p>Nel modello CBT, le emozioni non sono causate direttamente dagli eventi, ma dai nostri pensieri su quegli eventi:</p>
+            
+            <div class="signal-box">
+                <ul>
+                    <li><strong>A (Activating Event):</strong> Evento attivante o situazione</li>
+                    <li><strong>B (Beliefs):</strong> Pensieri, credenze, interpretazioni</li>
+                    <li><strong>C (Consequences):</strong> Conseguenze emotive e comportamentali</li>
+                </ul>
+            </div>
+            
+            <div class="example-box">
+                <strong>📌 Esempio pratico:</strong><br><br>
+                <strong>Scenario 1:</strong><br>
+                • A: Un amico non risponde al messaggio<br>
+                • B: "Mi sta ignorando, non gli importo"<br>
+                • C: Tristezza, ansia, evitamento<br><br>
+                
+                <strong>Scenario 2 (stesso evento):</strong><br>
+                • A: Un amico non risponde al messaggio<br>
+                • B: "Sarà impegnato, mi risponderà quando può"<br>
+                • C: Tranquillità, pazienza
+            </div>
+            
+            <h3>Funzioni delle emozioni</h3>
+            <p>Ogni emozione ha uno scopo evolutivo:</p>
+            <ul>
+                <li><strong>Ci informano:</strong> segnalano bisogni, valori, minacce o opportunità</li>
+                <li><strong>Ci motivano all'azione:</strong> ci spingono a comportarci in modi che ci proteggono o ci aiutano</li>
+                <li><strong>Comunicano agli altri:</strong> esprimono i nostri stati interni e facilitano le relazioni sociali</li>
+            </ul>
+            
+            <h3>Intensità emotiva</h3>
+            <p>Le emozioni variano in intensità da lievi a molto intense. L'intensità dipende da:</p>
+            <ul>
+                <li>L'importanza della situazione per noi</li>
+                <li>Le nostre esperienze passate</li>
+                <li>Il nostro stato fisico (stanchezza, fame, stress)</li>
+                <li>I nostri pensieri e interpretazioni</li>
+            </ul>
+            
+            <div class="exercise-section">
+                <h3>📝 Esercizio: Diario delle Emozioni</h3>
+                <p>Compila quotidianamente per una settimana per aumentare la consapevolezza emotiva:</p>
+                <table>
+                    <tr>
+                        <th>Data</th>
+                        <th>Situazione</th>
+                        <th>Emozione</th>
+                        <th>Intensità (0-10)</th>
+                        <th>Pensieri</th>
+                        <th>Comportamento</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- PAGINA PAURA/ANSIA -->
+        <div id="page-paura" class="content-page">
+            <h2>😰 La Paura/Ansia</h2>
+            
+            <h3>Cos'è la paura/ansia?</h3>
+            <p>La paura è un'emozione primaria che si attiva quando percepiamo un pericolo o una minaccia. L'ansia è simile alla paura, ma orientata verso minacce future o incerte.</p>
+            
+            <h3>Segnali della paura/ansia</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Battito cardiaco accelerato</li>
+                    <li>Respirazione rapida o superficiale</li>
+                    <li>Sudorazione</li>
+                    <li>Tensione muscolare</li>
+                    <li>Tremori</li>
+                    <li>Nausea o mal di stomaco</li>
+                    <li>Vertigini</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"Qualcosa di brutto sta per succedere"</li>
+                    <li>"Non ce la farò"</li>
+                    <li>"È pericoloso"</li>
+                    <li>Difficoltà di concentrazione</li>
+                    <li>Pensieri catastrofici</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Evitamento della situazione temuta</li>
+                    <li>Fuga o allontanamento</li>
+                    <li>Ricerca di rassicurazione</li>
+                    <li>Immobilizzazione</li>
+                    <li>Controllo eccessivo</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione della paura/ansia</h3>
+            <p>La paura ci protegge dai pericoli reali preparando il corpo alla risposta "attacca, fuggi o congelati". In situazioni di pericolo reale, questa emozione è essenziale per la sopravvivenza.</p>
+            
+            <div class="tip-box">
+                <strong>⚠️ Attenzione:</strong> A volte la paura si attiva anche quando:
+                <ul>
+                    <li>Non c'è un pericolo reale</li>
+                    <li>Il pericolo è sopravvalutato</li>
+                    <li>Evitiamo situazioni importanti per la nostra vita</li>
+                </ul>
+            </div>
+            
+            <h3>Come gestire la paura/ansia in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Riconoscere:</strong> "Sto provando ansia, è normale e passerà"</li>
+                    <li><strong>Respirare:</strong> Tecniche di respirazione diaframmatica</li>
+                    <li><strong>Esaminare i pensieri:</strong> "Quanto è realistico questo pericolo?"</li>
+                    <li><strong>Esposizione graduale:</strong> Affrontare progressivamente le situazioni temute</li>
+                    <li><strong>Accettazione:</strong> Non combattere l'ansia, ma permetterle di esistere</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- PAGINA TRISTEZZA -->
+        <div id="page-tristezza" class="content-page">
+            <h2>😢 La Tristezza</h2>
+            
+            <h3>Cos'è la tristezza?</h3>
+            <p>La tristezza è un'emozione che proviamo in risposta a una perdita, una delusione, un fallimento o quando qualcosa di importante per noi non va come vorremmo.</p>
+            
+            <h3>Segnali della tristezza</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Bassa energia, affaticamento</li>
+                    <li>Pianto o nodo alla gola</li>
+                    <li>Pesantezza fisica</li>
+                    <li>Cambiamenti nell'appetito (aumento o diminuzione)</li>
+                    <li>Disturbi del sonno (dormire troppo o troppo poco)</li>
+                    <li>Movimenti rallentati</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"Ho perso qualcosa di importante"</li>
+                    <li>"Le cose non cambieranno mai"</li>
+                    <li>"Non vale la pena"</li>
+                    <li>Ruminazione sul passato</li>
+                    <li>Difficoltà a vedere aspetti positivi</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Ritiro sociale</li>
+                    <li>Riduzione delle attività</li>
+                    <li>Pianto</li>
+                    <li>Ricerca di conforto</li>
+                    <li>Minor cura di sé</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione della tristezza</h3>
+            <p>La tristezza ha funzioni importanti:</p>
+            <ul>
+                <li>Ci aiuta a <strong>elaborare le perdite</strong> e ad adattarci ai cambiamenti</li>
+                <li><strong>Comunica agli altri</strong> che abbiamo bisogno di supporto</li>
+                <li>Ci permette di <strong>riflettere</strong> su ciò che è importante per noi</li>
+                <li>Ci invita a <strong>rallentare</strong> per prenderci cura di noi stessi</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>⚠️ Differenza tra tristezza e depressione:</strong><br><br>
+                La tristezza è un'emozione normale che va e viene. La depressione è una condizione più persistente che dura settimane o mesi e interferisce significativamente con la vita quotidiana.
+            </div>
+            
+            <h3>Come gestire la tristezza in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Permettere:</strong> Dare spazio all'emozione senza giudicarla</li>
+                    <li><strong>Esprimere:</strong> Parlare con qualcuno, scrivere, piangere</li>
+                    <li><strong>Attivazione comportamentale:</strong> Fare piccole attività piacevoli o significative</li>
+                    <li><strong>Auto-compassione:</strong> Trattarsi con gentilezza</li>
+                    <li><strong>Cercare supporto:</strong> Connettersi con persone care</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- PAGINA RABBIA -->
+        <div id="page-rabbia" class="content-page">
+            <h2>😠 La Rabbia</h2>
+            
+            <h3>Cos'è la rabbia?</h3>
+            <p>La rabbia è un'emozione che si attiva quando percepiamo un'ingiustizia, una violazione dei nostri diritti o dei nostri confini, un ostacolo ai nostri obiettivi o una minaccia.</p>
+            
+            <h3>Segnali della rabbia</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Tensione muscolare, soprattutto mascella e pugni</li>
+                    <li>Sensazione di calore, arrossamento</li>
+                    <li>Battito cardiaco accelerato</li>
+                    <li>Respirazione rapida</li>
+                    <li>Energia aumentata</li>
+                    <li>Pressione al petto</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"Non è giusto!"</li>
+                    <li>"Non dovrebbe essere così"</li>
+                    <li>"Come si permette?"</li>
+                    <li>"È colpa sua/loro"</li>
+                    <li>Pensieri vendicativi</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Alzare la voce</li>
+                    <li>Gesti bruschi</li>
+                    <li>Aggressività verbale o fisica</li>
+                    <li>Allontanamento brusco</li>
+                    <li>Comportamenti impulsivi</li>
+                    <li>Chiusura o silenzio ostile</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione della rabbia</h3>
+            <p>La rabbia serve a:</p>
+            <ul>
+                <li><strong>Difendere</strong> i nostri diritti e confini</li>
+                <li><strong>Mobilitare energia</strong> per affrontare problemi o ingiustizie</li>
+                <li><strong>Comunicare</strong> che qualcosa è inaccettabile per noi</li>
+                <li><strong>Motivare il cambiamento</strong> di situazioni problematiche</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>Rabbia funzionale vs disfunzionale:</strong><br><br>
+                <strong>✅ Funzionale:</strong> Assertività, comunicazione chiara dei propri bisogni, azione costruttiva per cambiare la situazione<br><br>
+                <strong>❌ Disfunzionale:</strong> Aggressività, violenza verbale o fisica, rottura di relazioni, conseguenze negative
+            </div>
+            
+            <h3>Come gestire la rabbia in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Riconoscere i primi segnali:</strong> Identificare la rabbia prima che diventi intensa</li>
+                    <li><strong>Pausa:</strong> Allontanarsi temporaneamente dalla situazione</li>
+                    <li><strong>Tecniche di rilassamento:</strong> Respirazione, rilassamento muscolare</li>
+                    <li><strong>Esaminare i pensieri:</strong> "È davvero così terribile? Ci sono altre spiegazioni?"</li>
+                    <li><strong>Comunicazione assertiva:</strong> Esprimere i bisogni senza aggredire</li>
+                    <li><strong>Problem solving:</strong> Focalizzarsi su soluzioni concrete</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- PAGINA GIOIA -->
+        <div id="page-gioia" class="content-page">
+            <h2>😊 La Gioia</h2>
+            
+            <h3>Cos'è la gioia?</h3>
+            <p>La gioia è un'emozione positiva che proviamo quando accade qualcosa di piacevole, raggiungiamo un obiettivo, sperimentiamo connessione con gli altri o ci sentiamo apprezzati e sicuri.</p>
+            
+            <h3>Segnali della gioia</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Sorriso spontaneo</li>
+                    <li>Sensazione di leggerezza</li>
+                    <li>Energia aumentata</li>
+                    <li>Rilassamento muscolare</li>
+                    <li>Apertura corporea</li>
+                    <li>Voglia di muoversi o danzare</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"Che bello!"</li>
+                    <li>"Sono felice"</li>
+                    <li>"Va tutto bene"</li>
+                    <li>Pensieri ottimistici</li>
+                    <li>Focus sugli aspetti positivi</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Sorridere e ridere</li>
+                    <li>Condividere con gli altri</li>
+                    <li>Avvicinarsi alle persone</li>
+                    <li>Maggiore apertura sociale</li>
+                    <li>Voglia di fare attività</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione della gioia</h3>
+            <p>La gioia ha importanti funzioni:</p>
+            <ul>
+                <li><strong>Rinforza comportamenti</strong> positivi e adattivi</li>
+                <li><strong>Motiva</strong> a perseguire obiettivi e relazioni</li>
+                <li><strong>Favorisce creatività</strong> e apertura mentale</li>
+                <li><strong>Migliora le relazioni</strong> sociali</li>
+                <li><strong>Costruisce risorse</strong> psicologiche per affrontare difficoltà future</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>⚠️ Perché a volte blocchiamo la gioia?</strong><br><br>
+                Alcune persone faticano a provare o esprimere gioia per:
+                <ul>
+                    <li>Senso di colpa ("Non merito di essere felice")</li>
+                    <li>Paura della delusione ("Se sono troppo felice, poi starò male")</li>
+                    <li>Credenze negative ("La vita è solo sofferenza")</li>
+                    <li>Paura del giudizio altrui</li>
+                </ul>
+            </div>
+            
+            <h3>Come coltivare la gioia in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Presenza:</strong> Essere pienamente presenti nei momenti piacevoli</li>
+                    <li><strong>Gratitudine:</strong> Notare e apprezzare le cose positive</li>
+                    <li><strong>Condivisione:</strong> Raccontare le esperienze positive agli altri</li>
+                    <li><strong>Savoring:</strong> Assaporare e prolungare i momenti positivi</li>
+                    <li><strong>Permesso:</strong> Permettersi di provare piacere senza sensi di colpa</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- PAGINA DISGUSTO -->
+        <div id="page-disgusto" class="content-page">
+            <h2>🤢 Il Disgusto</h2>
+            
+            <h3>Cos'è il disgusto?</h3>
+            <p>Il disgusto è un'emozione primaria che ci protegge da sostanze, situazioni o comportamenti potenzialmente dannosi o contaminanti. Può essere fisico (verso cibi, odori) o morale (verso comportamenti).</p>
+            
+            <h3>Segnali del disgusto</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Nausea</li>
+                    <li>Arricciamento del naso</li>
+                    <li>Allontanamento fisico</li>
+                    <li>Bocca aperta o smorfia</li>
+                    <li>Impulso a vomitare</li>
+                    <li>Tensione allo stomaco</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"È ripugnante"</li>
+                    <li>"È contaminato/sporco"</li>
+                    <li>"È sbagliato"</li>
+                    <li>"Voglio allontanarmi"</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Allontanamento dalla fonte</li>
+                    <li>Evitamento</li>
+                    <li>Pulizia o lavaggio</li>
+                    <li>Rifiuto del contatto</li>
+                    <li>Espressioni facciali di repulsione</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione del disgusto</h3>
+            <p>Il disgusto originariamente serviva a:</p>
+            <ul>
+                <li><strong>Proteggerci</strong> da cibi avariati o tossici</li>
+                <li><strong>Evitare malattie</strong> e contaminazioni</li>
+                <li><strong>Definire confini</strong> morali e sociali</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>⚠️ Quando il disgusto diventa problematico:</strong><br><br>
+                Il disgusto può diventare disfunzionale quando:
+                <ul>
+                    <li>Si generalizza eccessivamente (DOC da contaminazione)</li>
+                    <li>Interferisce con l'alimentazione</li>
+                    <li>Crea problemi nelle relazioni intime</li>
+                    <li>Si estende a parti di sé o al proprio corpo</li>
+                </ul>
+            </div>
+            
+            <h3>Come gestire il disgusto in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Valutare realisticamente:</strong> "C'è un vero pericolo o è solo una reazione emotiva?"</li>
+                    <li><strong>Esposizione graduale:</strong> Avvicinarsi progressivamente allo stimolo temuto</li>
+                    <li><strong>Normalizzazione:</strong> Riconoscere che molte cose disgustose sono in realtà innocue</li>
+                    <li><strong>Flessibilità:</strong> Sviluppare tolleranza per l'imperfezione e l'incertezza</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- PAGINA SORPRESA -->
+        <div id="page-sorpresa" class="content-page">
+            <h2>😲 La Sorpresa</h2>
+            
+            <h3>Cos'è la sorpresa?</h3>
+            <p>La sorpresa è un'emozione breve e intensa che si verifica quando accade qualcosa di inaspettato. È un'emozione neutra che può rapidamente trasformarsi in altre emozioni (gioia, paura, rabbia) a seconda della valutazione dell'evento.</p>
+            
+            <h3>Segnali della sorpresa</h3>
+            
+            <div class="signal-box">
+                <strong>Segnali Fisici:</strong>
+                <ul>
+                    <li>Occhi spalancati</li>
+                    <li>Sopracciglia alzate</li>
+                    <li>Bocca aperta</li>
+                    <li>Breve arresto del respiro</li>
+                    <li>Sussulto</li>
+                    <li>Immobilizzazione momentanea</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Pensieri Tipici (Cognitivi):</strong>
+                <ul>
+                    <li>"Non me lo aspettavo!"</li>
+                    <li>"Cosa sta succedendo?"</li>
+                    <li>Momento di confusione</li>
+                    <li>Rapida rivalutazione della situazione</li>
+                </ul>
+            </div>
+            
+            <div class="signal-box">
+                <strong>Comportamenti:</strong>
+                <ul>
+                    <li>Fermarsi improvvisamente</li>
+                    <li>Orientamento verso lo stimolo</li>
+                    <li>Aumento dell'attenzione</li>
+                    <li>Esclamazioni</li>
+                </ul>
+            </div>
+            
+            <h3>Funzione della sorpresa</h3>
+            <p>La sorpresa serve a:</p>
+            <ul>
+                <li><strong>Interrompere</strong> l'attività in corso</li>
+                <li><strong>Focalizzare l'attenzione</strong> su qualcosa di nuovo</li>
+                <li><strong>Preparare</strong> a rispondere all'evento inaspettato</li>
+                <li><strong>Facilitare l'apprendimento</strong> e la memoria</li>
+            </ul>
+            
+            <div class="example-box">
+                <strong>Sorpresa positiva vs negativa:</strong><br><br>
+                La sorpresa è inizialmente neutra, ma diventa rapidamente:<br><br>
+                <strong>✅ Positiva (gioia):</strong> regali inaspettati, buone notizie<br>
+                <strong>❌ Negativa (paura/rabbia):</strong> pericoli improvvisi, brutte notizie
+            </div>
+            
+            <h3>Come gestire la sorpresa in modo funzionale</h3>
+            <div class="tip-box">
+                <ol>
+                    <li><strong>Pause:</strong> Prendersi un momento per elaborare l'evento</li>
+                    <li><strong>Valutazione:</strong> Determinare se l'evento è positivo, negativo o neutro</li>
+                    <li><strong>Flessibilità:</strong> Adattare rapidamente i propri piani</li>
+                    <li><strong>Curiosità:</strong> Mantenere apertura verso l'inaspettato</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageName) {
+            // Nascondi home e mostra back button
+            document.getElementById('home').style.display = 'none';
+            document.querySelector('.back-btn').style.display = 'block';
+            
+            // Nascondi tutte le pagine
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(page => page.style.display = 'none');
+            
+            // Mostra la pagina selezionata
+            document.getElementById('page-' + pageName).style.display = 'block';
+            
+            // Scroll top
+            window.scrollTo(0, 0);
+        }
+        
+        function goHome() {
+            // Mostra home e nascondi back button
+            document.getElementById('home').style.display = 'grid';
+            document.querySelector('.back-btn').style.display = 'none';
+            
+            // Nascondi tutte le pagine
+            const pages = document.querySelectorAll('.content-page');
+            pages.forEach(page => page.style.display = 'none');
+            
+            // Scroll top
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
